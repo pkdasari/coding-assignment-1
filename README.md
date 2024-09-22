@@ -84,12 +84,18 @@ You can define the following variables in your .tfvars files for each environmen
 * aws_access_key: AWS access key for the environment
 * aws_secret_key: AWS secret key for the environment
 * aws_account_id: AWS account ID for the environment
-* node_group_desired_capacity: Desired capacity for EKS node group
-* node_group_min_capacity: Minimum capacity for EKS node group
-* node_group_max_capacity: Maximum capacity for EKS node group
-* node_instance_type: Instance type for the EKS nodes
+* cluster_name: EKS Cluster name
+* min_capacity: Minimum capacity for EKS node group
+* max_capacity: Maximum capacity for EKS node group
+* instance_type: Instance type for the EKS nodes
 * key_name: Name of the SSH key pair to access instances
 * tags: Tags to apply to resources
+* whitelisted_ips: 
+* s3_bucket_name: Storing Terraform State on S3
+* dynamodb_table_name: DynamoDB Table name for Locking terraform state
+* vpc_cidr: VPC CIDR Range for Networking
+* private_subnets_cidr: Private subnet cidr range for Networking
+* public_subnets_cidr: Public subnet cidr range for Networking
 
 
 ### 3. Running Terraform for Different Environments
