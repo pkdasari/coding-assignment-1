@@ -6,20 +6,20 @@ variable "aws_region" {
   default     = "us-west-2"
 }
 
-variable "aws_access_key" {
-  description = "AWS access key for the environment"
-  type        = string
-}
+# variable "aws_access_key" {
+#   description = "AWS access key for the environment"
+#   type        = string
+# }
 
-variable "aws_secret_key" {
-  description = "AWS secret key for the environment"
-  type        = string
-}
+# variable "aws_secret_key" {
+#   description = "AWS secret key for the environment"
+#   type        = string
+# }
 
-variable "aws_account_id" {
-  description = "AWS account ID for the environment"
-  type        = string
-}
+# variable "aws_account_id" {
+#   description = "AWS account ID for the environment"
+#   type        = string
+# }
 
 variable "s3_bucket_name" {
   description = "The name of the S3 bucket for storing Terraform state"

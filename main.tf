@@ -1,12 +1,12 @@
 provider "aws" {
   region     = var.aws_region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
+  # access_key = var.aws_access_key
+  # secret_key = var.aws_secret_key
 }
 
-locals {
-  account_id = var.aws_account_id
-}
+# locals {
+#   account_id = var.aws_account_id
+# }
 
 # Call the backend module for S3 and DynamoDB
 module "backend" {
