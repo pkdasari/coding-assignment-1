@@ -229,3 +229,7 @@ Create a Jenkinsfile to define the pipeline stages. The pipeline will:
 * Start the pipeline, and it will provision the infrastructure via Terraform and send email notifications based on the outcome.
 
 This setup ensures a fully automated CI/CD pipeline for provisioning infrastructure, with real-time email notifications to keep stakeholders updated.
+
+Sample CICD Flow Diagram:
+
+![Alt text](images/CICD-Flow-Diagram.png)
