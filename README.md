@@ -18,6 +18,8 @@ This project provides Terraform configurations for deploying an Amazon EKS (Elas
     - [3.2 Staging Environment](#32-staging-environment)
     - [3.3 Production Environment](#33-production-environment)
   - [4. Managing State with Workspaces](#4-managing-state-with-workspaces)
+- [Helmcharts for webapp](#)
+- [Jenkins](#jenkins-pipeline-setup)
 - [Outputs](#outputs)
 - [License](#license)
 
@@ -165,3 +167,65 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set
 # If not using IAM Roles for service account
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller --set clusterName=hub -n kube-system
 ```
+
+
+
+## Jenkins Pipeline Setup
+
+To establish a Jenkins pipeline that executes a Terraform script for infrastructure provisioning and triggers email notifications, we can break down the process into several steps:
+
+### Prerequisites:
+
+#### Jenkins setup with necessary plugins:
+* Terraform Plugin
+* Email Extension Plugin
+* Terraform installed on the Jenkins node or Docker image.
+* AWS credentials configured on Jenkins for accessing AWS (via credentials manager or environment variables).
+* SMTP setup in Jenkins for sending email notifications.
+
+#### Jenkins Pipeline Configuration
+
+Create a Jenkinsfile to define the pipeline stages. The pipeline will:
+
+* Checkout the code from a Git repository.
+* Initialize Terraform.
+* Plan and apply the infrastructure changes.
+* Deploy Web app using helmcharts
+* Send email notifications with the output details.
+
+
+#### Explanation of Key Sections:
+
+* Agent: agent any means the pipeline will run on any available Jenkins agent. You can specify a particular agent if needed.
+* Environment Variables:
+ - AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY are fetched from Jenkins credentials manager.
+ - EMAIL_RECIPIENTS defines the email address(es) that will receive the notifications.
+
+* Stages:
+ - Checkout: Clones the Terraform script repository.
+ - Terraform Init: Initializes Terraform in the project directory.
+ - Terraform Plan: Executes the terraform plan command, storing the output in a plan file (tfplan).
+ - Terraform Apply: Applies the changes based on the generated plan, using -auto-approve to bypass confirmation prompts
+ - Helm Deploy: Deployes Web applicaiton on to EKS
+* Post Conditions:
+  - Success: If the pipeline completes successfully, an email with the details (branch, build URL, job name) is sent to the configured recipient(s).
+  - Failure: If the pipeline fails, an email is sent notifying the recipient(s) of the failure, along with relevant build information.
+
+#### SMTP Configuration (Jenkins Email Setup)
+
+* Jenkins Dashboard → Manage Jenkins → Configure System.
+* Scroll down to E-mail Notification and configure the SMTP server settings.
+* Test Configuration to ensure emails are working.
+
+#### Jenkins Plugins:
+
+* Terraform Plugin (optional, for managing Terraform versions or using Terraform steps directly in the pipeline).
+* Email Extension Plugin: Sends customizable email notifications.
+
+#### Running the Pipeline:
+
+* Push the Jenkinsfile to the root of your Git repository.
+* In Jenkins, create a new pipeline job and point it to your Git repository.
+* Start the pipeline, and it will provision the infrastructure via Terraform and send email notifications based on the outcome.
+
+This setup ensures a fully automated CI/CD pipeline for provisioning infrastructure, with real-time email notifications to keep stakeholders updated.
